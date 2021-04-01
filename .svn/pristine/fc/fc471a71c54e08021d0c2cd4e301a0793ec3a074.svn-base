@@ -1,0 +1,931 @@
+﻿using UnityEngine;
+using UnityEngine.Advertisements;
+using System.Collections;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using UnityEngine.Purchasing;
+
+public class Main : MonoBehaviour {
+
+
+    public Text batTrain;
+    public Image bttnPl1;
+    public Image bttnPl2;
+    public Image bttnPl3;
+    public Image bttnPl4;
+    public Image bttnPl5;
+    public Image bttnPl6;
+    public Image bttnPl7;
+    public Image bttnPl8;
+    public Image bttnPl9;
+    public Image bttnPl10;
+    float NumColor;
+    float NumColorSh;
+    public Sprite plavkiM;
+    public Sprite plavkiW;
+    public Sprite Shapocka;
+    public Image imgPlavki;
+    public Text txtBuyMainName;
+    public Text txtBuySet;
+    public Text txtCoins;
+    public GameObject buyPanel;
+    public Image imgW;
+    public Image imgM;
+    public Image plavkiColor;
+    public Image plavkiColorW;
+    public GameObject plavkiWoomen;
+    public GameObject plavkiMen;
+    public GameObject Men;
+    public GameObject Woomen;
+    public Text bttnQ1;
+    public Text bttnQ2;
+    public Text bttnQ3;
+    public GameObject panelKvest;
+    public Text txtQuestion;
+    public Image shapochkaColor;
+    public Slider shapochkaSlider;
+    public GameObject swimmingPool;
+    public GameObject trainers;
+    public Button swimmingPoolBttn;
+    public Button trainersBttn;
+    public GameObject bttnAds;
+    public Text krowlTrain;
+    public Text brassTrain;
+    public Text spinTrain;
+    public Text statKrowl;
+    public Text statBat;
+    public Text statBrass;
+    public Text statSpina;
+    public GameObject panel_Prefs;
+    public GameObject panel_Main;
+    public Text name_text;
+    public Text still_text;
+    public Text day_text;
+    public Text secondname_text;
+    public GameObject panel1;
+    public GameObject panel2;
+    public GameObject panel3;
+    public GameObject panel4;
+    public GameObject panel5;
+    public Image home_bttn;
+    public Toggle tggl1;
+    public Toggle tggl2;
+    public Toggle tggl3;
+    public Toggle tggl4;
+    public Toggle tgglVibrate;
+    public Text txtstill1;
+    public Text txtstill2;
+    public Text txtstill3;
+    public Text txtstill4;
+    public GameObject panelSwimRef;
+    public GameObject tick1;
+    public GameObject tick2;
+    public Text debugMoney;
+    int dayNumber;
+    int still;
+    string stillStr;
+    int dist;
+    public GameObject errText;
+    string distStr;
+    public Text textServer;
+    public GameObject panelRate;
+    int randKvest;
+    public static string[] namesBotMan = { "Александр", "Михаил", "Ярослав", "Кирилл", "Егор", "Николай", "Павел", "Алексей", "Илья", "Никита", "Данил", "Василий", "Дмитрий" };
+    public static string[] surnameBotMan = { "Исаев", "Бурутин", "Крылов", "Щавелев", "Волков", "Глазов", "Беляков", "Галанов", "Ковтонюк", "Пшеничкин", "Березенцев", "Гаврилов" };
+    public static string[] namesBotWoomen = { "Варя", "Анастасия", "Снежана", "Василиса", "Александра", "Полина", "Юлия", "Алина", "Ульяна", "Алена", "Лиза", "Елена", "Наталия" };
+    public static string[] surnameBotWoomen = { "Борискова", "Ратникова", "Амелина", "Исаева", "Волкова", "Щавелева", "Гаврилова", "Крылова", "Бурутина", "Березенцева", "Пшеничкина", "Галанова" };
+    public static string[] kvestQuestions = {"Как зовут Щавля", "Question 2", "Question 3", "Question 4", "Question 5", "Question 6" };
+    public static string[] kvestQuestionsbttn1 = { "Щавель", "Question 2", "Question 3", "Question 4", "Question 5", "Question 6" };
+    public static string[] kvestQuestionsbttn2 = { "Даниил", "Question 2", "Question 3", "Question 4", "Question 5", "Question 6" };
+    public static string[] kvestQuestionsbttn3 = { "Данил", "Question 2", "Question 3", "Question 4", "Question 5", "Question 6" };
+
+    void Awake () {
+        panel_Prefs.SetActive(false);
+        shapochkaColor.color = Color.HSVToRGB(PlayerPrefs.GetFloat("colorShapochka"), 0.65f, 1);
+        plavkiColor.color = Color.HSVToRGB(PlayerPrefs.GetFloat("colorPlavki"), 0.65f, 1);
+        plavkiColorW.color = Color.HSVToRGB(PlayerPrefs.GetFloat("colorPlavki"), 0.65f, 1);
+        imgM.color = new Vector4(0.19f, 0.66f, 0.87f, 1);
+        imgW.color = new Vector4(1, 0.27f, 0.95f, 1);
+        brassTrain.text = PlayerPrefs.GetFloat("upTrainBrass").ToString();
+        krowlTrain.text = PlayerPrefs.GetFloat("upTrainKrowl").ToString();
+        spinTrain.text = PlayerPrefs.GetFloat("upTrainSpina").ToString();
+        batTrain.text = PlayerPrefs.GetFloat("upTrainBat").ToString();
+        statBat.text = "Баттерфляй - " + string.Format("{0:0.00}", PlayerPrefs.GetFloat("speedBat"));
+        statKrowl.text = "Кроль - " + string.Format("{0:0.00}", PlayerPrefs.GetFloat("speedKrowl"));
+        statBrass.text = "Брасс - " + string.Format("{0:0.00}", PlayerPrefs.GetFloat("speedBrass"));
+        statSpina.text = "Спина - " + string.Format("{0:0.00}", PlayerPrefs.GetFloat("speedSpina"));
+        //StartCoroutine(scoreTable());
+        setDay();
+        panelSwimRef.SetActive(false);
+        if (!PlayerPrefs.HasKey("firstPlay"))
+        {
+            panel_Prefs.SetActive(true);
+        }
+        else
+        {
+           panel_Prefs.SetActive(false);
+           panel_Main.SetActive(true);
+        }
+        panel1.SetActive(false);
+        panel2.SetActive(false);
+        panel3.SetActive(true);
+        panel4.SetActive(false);
+        panel5.SetActive(false);
+        switch (PlayerPrefs.GetString("still"))
+        { 
+            case "Krowl":
+                still_text.text = "Кролист";
+                break;
+            case "Bat":
+                still_text.text = "Баттист";
+                break;
+            case "Spin":
+                still_text.text = "Спинист";
+                break;
+            case "Brass":
+                still_text.text = "Брассист";
+                break;
+        }
+        name_text.text = PlayerPrefs.GetString("Name");
+        secondname_text.text = PlayerPrefs.GetString("secName");
+        home_bttn.color = new Vector4(0.176f, 0.243f, 0.313f, 1);
+        tick1.SetActive(false);
+        tick2.SetActive(false);
+        debugMoney.text = PlayerPrefs.GetInt("money").ToString();
+        errText.SetActive(false);
+        switch (PlayerPrefs.GetInt("trainer"))
+        {
+            case 1:
+                tick1.SetActive(true);
+                break;
+            case 2:
+                tick2.SetActive(true);
+                break;
+        }
+    }
+
+    public void IAP_OnPurchaseNonConsumable(PurchaseEventArgs args)
+    {
+        PlayerPrefs.SetInt("NoAds", 1);
+        bttnAds.SetActive(false);
+    }
+
+    void Start()
+    {
+        if(PlayerPrefs.GetInt("pol") == 1)
+        {
+            Woomen.SetActive(true);
+            Men.SetActive(false);
+            plavkiMen.SetActive(false);
+            plavkiWoomen.SetActive(true);
+        }
+        else
+        {
+            Woomen.SetActive(false);
+            Men.SetActive(true);
+            plavkiMen.SetActive(true);
+            plavkiWoomen.SetActive(false);
+        }
+        shapochkaSlider.value = PlayerPrefs.GetFloat("colorShapochka");
+        IAP.OnPurchaseNonConsumable += IAP_OnPurchaseNonConsumable;
+
+        if (IAP.CheckBuyState("no_ads"))
+        {
+            PlayerPrefs.SetInt("NoAds", 1);
+            bttnAds.SetActive(false);
+        }
+        if (PlayerPrefs.HasKey("NoAds"))
+        {
+            bttnAds.SetActive(false);
+        }
+        if(PlayerPrefs.GetInt("vibrate") == 1)
+        {
+            tgglVibrate.isOn = true;
+        }
+
+        else tgglVibrate.isOn = false;
+    }
+
+    public void Cooldown()
+    {
+        PlayerPrefs.DeleteKey("firstPlay");
+        panel_Prefs.SetActive(true);
+        panel_Main.SetActive(false);
+        name_text.text = "";
+        secondname_text.text = "";
+    }
+
+    public void bttnTrainKrowl()
+    {
+        if(PlayerPrefs.GetInt("money") >= PlayerPrefs.GetInt("coins"))
+        {
+            PlayerPrefs.SetInt("money", PlayerPrefs.GetInt("money") - PlayerPrefs.GetInt("coins"));
+            debugMoney.text = PlayerPrefs.GetInt("money").ToString();
+            PlayerPrefs.SetInt("day", PlayerPrefs.GetInt("day") + 1);
+            krowlTrain.text = PlayerPrefs.GetFloat("upTrainKrowl").ToString();
+            PlayerPrefs.SetFloat("speedKrowl", PlayerPrefs.GetFloat("speedKrowl") + PlayerPrefs.GetFloat("upTrainKrowl"));
+            statKrowl.text = "Кроль - " + string.Format("{0:0.00}", PlayerPrefs.GetFloat("speedKrowl"));
+            setDay();
+            TrainSetup();
+        }
+        if (PlayerPrefs.GetInt("day") % 7 == 4)
+        {
+            txtstill1.text = randomSwimDist() + " " + randomSwimStill();
+            PlayerPrefs.SetInt("swimDist1", dist);
+            PlayerPrefs.SetInt("swimStill1", still);
+            txtstill2.text = randomSwimDist() + " " + randomSwimStill();
+            PlayerPrefs.SetInt("swimDist2", dist);
+            PlayerPrefs.SetInt("swimStill2", still);
+            txtstill3.text = randomSwimDist() + " " + randomSwimStill();
+            PlayerPrefs.SetInt("swimDist3", dist);
+            PlayerPrefs.SetInt("swimStill3", still);
+            txtstill4.text = randomSwimDist() + " " + randomSwimStill();
+            PlayerPrefs.SetInt("swimDist4", dist);
+            PlayerPrefs.SetInt("swimStill4", still);
+            tggl1.isOn = false;
+            tggl2.isOn = false;
+            tggl3.isOn = false;
+            tggl4.isOn = false;
+            panelSwimRef.SetActive(true);
+        }
+        if (PlayerPrefs.GetInt("day") % 7 == 0)
+        {
+            if (PlayerPrefs.GetInt("city") == 1)
+            {
+                if (Advertisement.IsReady() && !PlayerPrefs.HasKey("NoAds"))
+                {
+                    Advertisement.Show();
+                }
+                PlayerPrefs.SetInt("day", PlayerPrefs.GetInt("day") + 1);
+                SceneManager.LoadScene(1);
+            }
+        }
+    }
+    public void bttnTrainBrass()
+    {
+        if (PlayerPrefs.GetInt("money") >= PlayerPrefs.GetInt("coins"))
+        {
+            PlayerPrefs.SetInt("money", PlayerPrefs.GetInt("money") - PlayerPrefs.GetInt("coins"));
+            debugMoney.text = PlayerPrefs.GetInt("money").ToString();
+            PlayerPrefs.SetInt("day", PlayerPrefs.GetInt("day") + 1);
+            brassTrain.text = PlayerPrefs.GetFloat("upTrainBrass").ToString();
+            PlayerPrefs.SetFloat("speedBrass", PlayerPrefs.GetFloat("speedBrass") + PlayerPrefs.GetFloat("upTrainBrass"));
+            statBrass.text = "Брасс - " + string.Format("{0:0.00}", PlayerPrefs.GetFloat("speedBrass"));
+            setDay();
+            TrainSetup();
+        }
+        if (PlayerPrefs.GetInt("day") % 7 == 4)
+        {
+            txtstill1.text = randomSwimDist() + " " + randomSwimStill();
+            PlayerPrefs.SetInt("swimDist1", dist);
+            PlayerPrefs.SetInt("swimStill1", still);
+            txtstill2.text = randomSwimDist() + " " + randomSwimStill();
+            PlayerPrefs.SetInt("swimDist2", dist);
+            PlayerPrefs.SetInt("swimStill2", still);
+            txtstill3.text = randomSwimDist() + " " + randomSwimStill();
+            PlayerPrefs.SetInt("swimDist3", dist);
+            PlayerPrefs.SetInt("swimStill3", still);
+            txtstill4.text = randomSwimDist() + " " + randomSwimStill();
+            PlayerPrefs.SetInt("swimDist4", dist);
+            PlayerPrefs.SetInt("swimStill4", still);
+            tggl1.isOn = false;
+            tggl2.isOn = false;
+            tggl3.isOn = false;
+            tggl4.isOn = false;
+            panelSwimRef.SetActive(true);
+        }
+        if (PlayerPrefs.GetInt("day") % 7 == 0)
+        {
+            if (PlayerPrefs.GetInt("city") == 1)
+            {
+                if (Advertisement.IsReady() && !PlayerPrefs.HasKey("NoAds"))
+                {
+                    Advertisement.Show();
+                }
+                SceneManager.LoadScene(1);
+            }
+        }
+    }
+    public void bttnTrainSpin()
+    {
+        if (PlayerPrefs.GetInt("money") >= PlayerPrefs.GetInt("coins"))
+        {
+            PlayerPrefs.SetInt("money", PlayerPrefs.GetInt("money") - PlayerPrefs.GetInt("coins"));
+            debugMoney.text = PlayerPrefs.GetInt("money").ToString();
+            PlayerPrefs.SetInt("day", PlayerPrefs.GetInt("day") + 1);
+            spinTrain.text = PlayerPrefs.GetFloat("upTrainSpina").ToString();
+            PlayerPrefs.SetFloat("speedSpina", PlayerPrefs.GetFloat("speedSpina") + PlayerPrefs.GetFloat("upTrainSpina"));
+            statSpina.text = "Спина - " + string.Format("{0:0.00}", PlayerPrefs.GetFloat("speedSpina"));
+            setDay();
+            TrainSetup();
+        }
+        if (PlayerPrefs.GetInt("day") % 7 == 4)
+        {
+            txtstill1.text = randomSwimDist() + " " + randomSwimStill();
+            PlayerPrefs.SetInt("swimDist1", dist);
+            PlayerPrefs.SetInt("swimStill1", still);
+            txtstill2.text = randomSwimDist() + " " + randomSwimStill();
+            PlayerPrefs.SetInt("swimDist2", dist);
+            PlayerPrefs.SetInt("swimStill2", still);
+            txtstill3.text = randomSwimDist() + " " + randomSwimStill();
+            PlayerPrefs.SetInt("swimDist3", dist);
+            PlayerPrefs.SetInt("swimStill3", still);
+            txtstill4.text = randomSwimDist() + " " + randomSwimStill();
+            PlayerPrefs.SetInt("swimDist4", dist);
+            PlayerPrefs.SetInt("swimStill4", still);
+            tggl1.isOn = false;
+            tggl2.isOn = false;
+            tggl3.isOn = false;
+            tggl4.isOn = false;
+            panelSwimRef.SetActive(true);
+        }
+        if (PlayerPrefs.GetInt("day") % 7 == 0)
+        {
+            if (PlayerPrefs.GetInt("city") == 1)
+            {
+                if (Advertisement.IsReady() && !PlayerPrefs.HasKey("NoAds"))
+                {
+                    Advertisement.Show();
+                }
+                SceneManager.LoadScene(1);
+            }
+        }
+    }
+    public void bttnTrainBat()
+    {
+        if (PlayerPrefs.GetInt("money") >= PlayerPrefs.GetInt("coins"))
+        {
+            PlayerPrefs.SetInt("money", PlayerPrefs.GetInt("money") - PlayerPrefs.GetInt("coins"));
+            debugMoney.text = PlayerPrefs.GetInt("money").ToString();
+            PlayerPrefs.SetInt("day", PlayerPrefs.GetInt("day") + 1);
+            batTrain.text = PlayerPrefs.GetFloat("upTrainBat").ToString();
+            PlayerPrefs.SetFloat("speedBat", PlayerPrefs.GetFloat("speedBat") + PlayerPrefs.GetFloat("upTrainBat"));
+            statBat.text = "Баттерфляй - " + string.Format("{0:0.00}", PlayerPrefs.GetFloat("speedBat"));
+            setDay();
+            TrainSetup();
+        }
+        if (PlayerPrefs.GetInt("day") % 7 == 4)
+        {
+            txtstill1.text = randomSwimDist() + " " + randomSwimStill();
+            PlayerPrefs.SetInt("swimDist1", dist);
+            PlayerPrefs.SetInt("swimStill1", still);
+            txtstill2.text = randomSwimDist() + " " + randomSwimStill();
+            PlayerPrefs.SetInt("swimDist2", dist);
+            PlayerPrefs.SetInt("swimStill2", still);
+            txtstill3.text = randomSwimDist() + " " + randomSwimStill();
+            PlayerPrefs.SetInt("swimDist3", dist);
+            PlayerPrefs.SetInt("swimStill3", still);
+            txtstill4.text = randomSwimDist() + " " + randomSwimStill();
+            PlayerPrefs.SetInt("swimDist4", dist);
+            PlayerPrefs.SetInt("swimStill4", still);
+            tggl1.isOn = false;
+            tggl2.isOn = false;
+            tggl3.isOn = false;
+            tggl4.isOn = false;
+            panelSwimRef.SetActive(true);
+        }
+        if (PlayerPrefs.GetInt("day") % 7 == 0)
+        {
+            if(PlayerPrefs.GetInt("city") == 1)
+            {
+                if (Advertisement.IsReady() && !PlayerPrefs.HasKey("NoAds"))
+                {
+                    Advertisement.Show();
+                }
+                SceneManager.LoadScene(1);
+            }
+        }
+    }
+
+    public void setDay()
+    {
+        dayNumber = PlayerPrefs.GetInt("day") % 7;
+        switch (dayNumber) { 
+            case 1:
+                day_text.text = "Пн";
+                break;
+            case 2:
+                day_text.text = "Вт";
+                break;
+            case 3:
+                day_text.text = "Ср";
+                break;
+            case 4:
+                day_text.text = "Чт";
+                break;
+            case 5:
+                day_text.text = "Пт";
+                break;
+            case 6:
+                day_text.text = "Сб";
+                break;
+            case 0:
+                day_text.text = "Вс";
+                break;
+        }
+
+    }
+
+    public void clickOnNo()
+    {
+        panelSwimRef.SetActive(false);
+        PlayerPrefs.SetInt("city", 0);
+    }
+
+    public void clickOnYes()
+    {
+        panelSwimRef.SetActive(false);
+        PlayerPrefs.SetInt("city", 1);
+        if (tggl1.isOn == true)
+        {
+            PlayerPrefs.SetInt("okdist1", 1);
+        } 
+        else PlayerPrefs.SetInt("okdist1", 0);
+        if (tggl2.isOn == true)
+        {
+            PlayerPrefs.SetInt("okdist2", 1);
+        }
+        else PlayerPrefs.SetInt("okdist2", 0);
+        if (tggl3.isOn == true)
+        {
+            PlayerPrefs.SetInt("okdist3", 1);
+        }
+        else PlayerPrefs.SetInt("okdist3", 0);
+        if (tggl4.isOn == true)
+        {
+            PlayerPrefs.SetInt("okdist4", 1);
+        }
+        else PlayerPrefs.SetInt("okdist4", 0);
+    }
+
+    string randomSwimStill()
+    {
+        still = Random.Range(1, 5);
+        switch (still) {
+            case 1:
+                stillStr = "Брасс";
+                break;
+            case 2:
+                stillStr = "Кроль";
+                break;
+            case 3:
+                stillStr = "Спина";
+                break;
+            case 4:
+                stillStr = "Баттерфляй";
+                break;
+        }
+        return stillStr;
+    }
+
+    string randomSwimDist()
+    {
+        dist = Random.Range(1, 5);
+        switch (dist)
+        {
+            case 1:
+                distStr = "50м";
+                break;
+            case 2:
+                distStr = "100м";
+                break;
+            case 3:
+                distStr = "200м";
+                break;
+            case 4:
+                distStr = "400м";
+                break;
+        }
+        return distStr;
+    }
+
+    public void onClickVK()
+    {
+        Application.OpenURL("https://vk.com/officialor");
+    }
+
+    public void ClickTrainer1()
+    {
+        if (PlayerPrefs.GetInt("money") >= 100)
+        {
+            tick1.SetActive(true);
+            tick2.SetActive(false);
+            PlayerPrefs.SetInt("trainer", 1);
+            PlayerPrefs.SetFloat("upTrainKrowl", 0.02f);
+            PlayerPrefs.SetFloat("upTrainBat", 0.02f);
+            PlayerPrefs.SetFloat("upTrainSpina", 0.02f);
+            PlayerPrefs.SetFloat("upTrainBrass", 0.02f);
+            brassTrain.text = PlayerPrefs.GetFloat("upTrainBrass").ToString();
+            krowlTrain.text = PlayerPrefs.GetFloat("upTrainKrowl").ToString();
+            spinTrain.text = PlayerPrefs.GetFloat("upTrainSpina").ToString();
+            batTrain.text = PlayerPrefs.GetFloat("upTrainBat").ToString();
+            errText.SetActive(false);
+            PlayerPrefs.SetInt("coins", 100);
+        }
+        else errText.SetActive(true);
+    }
+
+    public void ClickTrainer2()
+    {
+        if (PlayerPrefs.GetInt("money") >= 500)
+        {
+            tick1.SetActive(false);
+            tick2.SetActive(true);
+            PlayerPrefs.SetInt("trainer", 2);
+            PlayerPrefs.SetFloat("upTrainKrowl", 0.02f);
+            PlayerPrefs.SetFloat("upTrainBat", 0.02f);
+            PlayerPrefs.SetFloat("upTrainSpina", 0.02f);
+            PlayerPrefs.SetFloat("upTrainBrass", 0.02f);
+            brassTrain.text = PlayerPrefs.GetFloat("upTrainBrass").ToString();
+            krowlTrain.text = PlayerPrefs.GetFloat("upTrainKrowl").ToString();
+            spinTrain.text = PlayerPrefs.GetFloat("upTrainSpina").ToString();
+            batTrain.text = PlayerPrefs.GetFloat("upTrainBat").ToString();
+            errText.SetActive(false);
+            PlayerPrefs.SetInt("coins", 500);
+        }
+        else errText.SetActive(true);
+    }
+
+    public void clickOnRateYes()
+    {
+        panelRate.SetActive(false);
+        PlayerPrefs.SetInt("Rate", 1);
+        Application.OpenURL("https://play.google.com/store/apps/details?id=com.westcoastpro.swimracer");
+    }
+
+    public void clickOnRateNo()
+    {
+        PlayerPrefs.SetInt("Rate", 1);
+        panelRate.SetActive(false);
+    }
+
+    void TrainSetup()
+    {
+        if((PlayerPrefs.GetInt("day") == 15) && PlayerPrefs.GetInt("Rate") != 1 && PlayerPrefs.GetInt("Rate") != 0)
+        {
+            panelRate.SetActive(true);
+        }
+        if (tgglVibrate.isOn == true) PlayerPrefs.SetInt("vibrate", 1);
+        else PlayerPrefs.SetInt("vibrate", 0);
+        if (PlayerPrefs.GetInt("kvest") < kvestQuestions.Length)
+        {
+            randKvest = Random.Range(1, 5);
+            Debug.Log(randKvest);
+            if (randKvest == 2 && PlayerPrefs.GetInt("day") % 7 != 0)
+            {
+                panelKvest.SetActive(true);
+                txtQuestion.text = kvestQuestions[PlayerPrefs.GetInt("kvest")];
+                bttnQ1.text = kvestQuestionsbttn1[PlayerPrefs.GetInt("kvest")];
+                bttnQ2.text = kvestQuestionsbttn2[PlayerPrefs.GetInt("kvest")];
+                bttnQ3.text = kvestQuestionsbttn3[PlayerPrefs.GetInt("kvest")];
+                PlayerPrefs.SetInt("kvest", PlayerPrefs.GetInt("kvest") + 1);
+                Debug.Log(PlayerPrefs.GetInt("kvest"));
+            }
+        }
+        PlayerPrefs.SetFloat("colorShapochka", shapochkaSlider.value);
+        //PlayerPrefs.SetFloat("colorPlavki", shapochkaSlider.value);
+    }
+    public void onCLickSwimmingPool()
+    {
+        swimmingPoolBttn.image.color = new Vector4(0.13f, 0.19f, 0.25f, 1);
+        trainersBttn.image.color = new Vector4(0.18f,0.25f,0.32f, 1);
+        swimmingPool.SetActive(true);
+        trainers.SetActive(false);
+    }
+    public void onCLickTrainers()
+    {
+        swimmingPoolBttn.image.color = new Vector4(0.18f, 0.25f, 0.32f, 1);
+        trainersBttn.image.color = new Vector4(0.13f, 0.19f, 0.25f, 1);
+        swimmingPool.SetActive(false);
+        trainers.SetActive(true);
+    }
+    public void bttn1()
+    {
+        panelKvest.SetActive(false);
+        /**
+        switch (PlayerPrefs.GetInt("kvest"))
+        {
+            case 0:
+
+                return;
+        }
+    **/
+    }
+    public void OnClickBttnM()
+    {
+        imgM.color = new Vector4(0.19f, 0.66f, 0.87f, 1);
+        imgW.color = new Vector4(0.11f, 0.74f, 0.61f, 1);
+        PlayerPrefs.SetInt("pol", 0);
+        Woomen.SetActive(false);
+        Men.SetActive(true);
+        plavkiMen.SetActive(true);
+        plavkiWoomen.SetActive(false);
+        bttnImageKostyl();
+    }
+    public void OnClickBttnW()
+    {
+        imgW.color = new Vector4(1, 0.27f, 0.95f, 1);
+        imgM.color = new Vector4(0.11f, 0.74f, 0.61f, 1);
+        PlayerPrefs.SetInt("pol", 1);
+        Woomen.SetActive(true);
+        Men.SetActive(false);
+        plavkiMen.SetActive(false);
+        plavkiWoomen.SetActive(true);
+        bttnImageKostyl();
+    }
+    public void OnClickBack()
+    {
+        buyPanel.SetActive(false);
+    }
+    public void BuyPanel(int bttnNumber)
+    {
+        switch (bttnNumber)
+        {
+            case 1:
+                PlayerPrefs.SetInt("numberPlavki", 1);
+                txtBuyMainName.text = "Оранжевые плавки";
+                txtBuySet.text = "Для спинистов";
+                txtCoins.text = "500";
+                if(PlayerPrefs.GetInt("pol") == 1)
+                {
+                    imgPlavki.sprite = plavkiW;
+                }
+                else imgPlavki.sprite = plavkiM;
+                NumColor = 0.1f;
+                imgPlavki.color = Color.HSVToRGB(NumColor, 0.65f, 1);
+                buyPanel.SetActive(true);
+                break;
+            case 2:
+                PlayerPrefs.SetInt("numberPlavki", 2);
+                txtBuyMainName.text = "Жёлтые плавки";
+                txtBuySet.text = "Для спинистов";
+                txtCoins.text = "500";
+                if (PlayerPrefs.GetInt("pol") == 1)
+                {
+                    imgPlavki.sprite = plavkiW;
+                }
+                else imgPlavki.sprite = plavkiM;
+                NumColor = 0.2f;
+                imgPlavki.color = Color.HSVToRGB(NumColor, 0.65f, 1);
+                buyPanel.SetActive(true);
+                break;
+            case 3:
+                PlayerPrefs.SetInt("numberPlavki", 3);
+                txtBuyMainName.text = "Зеленые плавки";
+                txtBuySet.text = "Для спинистов";
+                txtCoins.text = "500";
+                if (PlayerPrefs.GetInt("pol") == 1)
+                {
+                    imgPlavki.sprite = plavkiW;
+                }
+                else imgPlavki.sprite = plavkiM;
+                NumColor = 0.3f;
+                imgPlavki.color = Color.HSVToRGB(NumColor, 0.65f, 1);
+                buyPanel.SetActive(true);
+                break;
+            case 4:
+                PlayerPrefs.SetInt("numberPlavki", 4);
+                txtBuyMainName.text = "Светло-зеленые плавки";
+                txtBuySet.text = "Для спинистов";
+                txtCoins.text = "500";
+                if (PlayerPrefs.GetInt("pol") == 1)
+                {
+                    imgPlavki.sprite = plavkiW;
+                }
+                else imgPlavki.sprite = plavkiM;
+                NumColor = 0.4f;
+                imgPlavki.color = Color.HSVToRGB(NumColor, 0.65f, 1);
+                buyPanel.SetActive(true);
+                break;
+            case 5:
+                PlayerPrefs.SetInt("numberPlavki", 5);
+                txtBuyMainName.text = "Голубые плавки";
+                txtBuySet.text = "Для спинистов";
+                txtCoins.text = "500";
+                if (PlayerPrefs.GetInt("pol") == 1)
+                {
+                    imgPlavki.sprite = plavkiW;
+                }
+                else imgPlavki.sprite = plavkiM;
+                NumColor = 0.5f;
+                imgPlavki.color = Color.HSVToRGB(NumColor, 0.65f, 1);
+                buyPanel.SetActive(true);
+                break;
+            case 6:
+                PlayerPrefs.SetInt("numberPlavki", 5);
+                txtBuyMainName.text = "Синие плавки";
+                txtBuySet.text = "Для спинистов";
+                txtCoins.text = "500";
+                if (PlayerPrefs.GetInt("pol") == 1)
+                {
+                    imgPlavki.sprite = plavkiW;
+                }
+                else imgPlavki.sprite = plavkiM;
+                NumColor = 0.6f;
+                imgPlavki.color = Color.HSVToRGB(NumColor, 0.65f, 1);
+                buyPanel.SetActive(true);
+                break;
+            case 7:
+                PlayerPrefs.SetInt("numberPlavki", 5);
+                txtBuyMainName.text = "Фиолетовые плавки";
+                txtBuySet.text = "Для спинистов";
+                txtCoins.text = "500";
+                if (PlayerPrefs.GetInt("pol") == 1)
+                {
+                    imgPlavki.sprite = plavkiW;
+                }
+                else imgPlavki.sprite = plavkiM;
+                NumColor = 0.7f;
+                imgPlavki.color = Color.HSVToRGB(NumColor, 0.65f, 1);
+                buyPanel.SetActive(true);
+                break;
+            case 8:
+                PlayerPrefs.SetInt("numberPlavki", 5);
+                txtBuyMainName.text = "Розовые плавки";
+                txtBuySet.text = "Для спинистов";
+                txtCoins.text = "500";
+                if (PlayerPrefs.GetInt("pol") == 1)
+                {
+                    imgPlavki.sprite = plavkiW;
+                }
+                else imgPlavki.sprite = plavkiM;
+                NumColor = 0.8f;
+                imgPlavki.color = Color.HSVToRGB(NumColor, 0.65f, 1);
+                buyPanel.SetActive(true);
+                break;
+            case 9:
+                PlayerPrefs.SetInt("numberPlavki", 5);
+                txtBuyMainName.text = "Светло-розовые плавки";
+                txtBuySet.text = "Для спинистов";
+                txtCoins.text = "500";
+                if (PlayerPrefs.GetInt("pol") == 1)
+                {
+                    imgPlavki.sprite = plavkiW;
+                }
+                else imgPlavki.sprite = plavkiM;
+                NumColor = 0.9f;
+                imgPlavki.color = Color.HSVToRGB(NumColor, 0.65f, 1);
+                buyPanel.SetActive(true);
+                break;
+            case 10:
+                PlayerPrefs.SetInt("numberPlavki", 5);
+                txtBuyMainName.text = "Красные плавки";
+                txtBuySet.text = "Для спинистов";
+                txtCoins.text = "500";
+                if (PlayerPrefs.GetInt("pol") == 1)
+                {
+                    imgPlavki.sprite = plavkiW;
+                }
+                else imgPlavki.sprite = plavkiM;
+                NumColor = 1;
+                imgPlavki.color = Color.HSVToRGB(NumColor, 0.65f, 1);
+                buyPanel.SetActive(true);
+                break;
+        }
+    }
+    public void BuyPaneShapochki(int bttnNumber)
+    {
+        switch (bttnNumber)
+        {
+            case 1:
+                PlayerPrefs.SetInt("numberShapochka", 1);
+                txtBuyMainName.text = "Оранжевая шапочка";
+                txtBuySet.text = "Для спинистов";
+                txtCoins.text = "500";
+                NumColorSh = 0.1f;
+                imgPlavki.sprite = Shapocka;
+                imgPlavki.color = Color.HSVToRGB(NumColorSh, 0.65f, 1);
+                buyPanel.SetActive(true);
+                break;
+            case 2:
+                PlayerPrefs.SetInt("numberShapochka", 1);
+                txtBuyMainName.text = "Желтая шапочка";
+                txtBuySet.text = "Для спинистов";
+                txtCoins.text = "500";
+                NumColorSh = 0.2f;
+                imgPlavki.sprite = Shapocka;
+                imgPlavki.color = Color.HSVToRGB(NumColorSh, 0.65f, 1);
+                buyPanel.SetActive(true);
+                break;
+            case 3:
+                PlayerPrefs.SetInt("numberShapochka", 1);
+                txtBuyMainName.text = "Зеленая шапочка";
+                txtBuySet.text = "Для спинистов";
+                txtCoins.text = "500";
+                NumColorSh = 0.3f;
+                imgPlavki.sprite = Shapocka;
+                imgPlavki.color = Color.HSVToRGB(NumColorSh, 0.65f, 1);
+                buyPanel.SetActive(true);
+                break;
+            case 4:
+                PlayerPrefs.SetInt("numberShapochka", 1);
+                txtBuyMainName.text = "Светло-зеленая шапочка";
+                txtBuySet.text = "Для спинистов";
+                txtCoins.text = "500";
+                NumColorSh = 0.4f;
+                imgPlavki.sprite = Shapocka;
+                imgPlavki.color = Color.HSVToRGB(NumColorSh, 0.65f, 1);
+                buyPanel.SetActive(true);
+                break;
+            case 5:
+                PlayerPrefs.SetInt("numberShapochka", 1);
+                txtBuyMainName.text = "Голубая шапочка";
+                txtBuySet.text = "Для спинистов";
+                txtCoins.text = "500";
+                NumColorSh = 0.5f;
+                imgPlavki.sprite = Shapocka;
+                imgPlavki.color = Color.HSVToRGB(NumColorSh, 0.65f, 1);
+                buyPanel.SetActive(true);
+                break;
+            case 6:
+                PlayerPrefs.SetInt("numberShapochka", 1);
+                txtBuyMainName.text = "Синяя шапочка";
+                txtBuySet.text = "Для спинистов";
+                txtCoins.text = "500";
+                NumColorSh = 0.6f;
+                imgPlavki.sprite = Shapocka;
+                imgPlavki.color = Color.HSVToRGB(NumColorSh, 0.65f, 1);
+                buyPanel.SetActive(true);
+                break;
+            case 7:
+                PlayerPrefs.SetInt("numberShapochka", 1);
+                txtBuyMainName.text = "Фиолетовая шапочка";
+                txtBuySet.text = "Для спинистов";
+                txtCoins.text = "500";
+                NumColorSh = 0.7f;
+                imgPlavki.sprite = Shapocka;
+                imgPlavki.color = Color.HSVToRGB(NumColorSh, 0.65f, 1);
+                buyPanel.SetActive(true);
+                break;
+            case 8:
+                PlayerPrefs.SetInt("numberShapochka", 1);
+                txtBuyMainName.text = "Розовая шапочка";
+                txtBuySet.text = "Для спинистов";
+                txtCoins.text = "500";
+                NumColorSh = 0.8f;
+                imgPlavki.sprite = Shapocka;
+                imgPlavki.color = Color.HSVToRGB(NumColorSh, 0.65f, 1);
+                buyPanel.SetActive(true);
+                break;
+            case 9:
+                PlayerPrefs.SetInt("numberShapochka", 1);
+                txtBuyMainName.text = "Светло-розовая шапочка";
+                txtBuySet.text = "Для спинистов";
+                txtCoins.text = "500";
+                NumColorSh = 0.9f;
+                imgPlavki.sprite = Shapocka;
+                imgPlavki.color = Color.HSVToRGB(NumColorSh, 0.65f, 1);
+                buyPanel.SetActive(true);
+                break;
+            case 10:
+                PlayerPrefs.SetInt("numberShapochka", 1);
+                txtBuyMainName.text = "Красная шапочка";
+                txtBuySet.text = "Для спинистов";
+                txtCoins.text = "500";
+                NumColorSh = 1;
+                imgPlavki.sprite = Shapocka;
+                imgPlavki.color = Color.HSVToRGB(NumColorSh, 0.65f, 1);
+                buyPanel.SetActive(true);
+                break;
+        }
+    }
+    public void OnCLickBuyPlavki()
+    {
+        buyPanel.SetActive(false);
+        PlayerPrefs.SetFloat("colorPlavki", NumColor);
+        PlayerPrefs.SetFloat("colorShapochka", NumColorSh);
+        shapochkaColor.color = Color.HSVToRGB(NumColorSh, 0.65f, 1);
+        plavkiColor.color = Color.HSVToRGB(NumColor, 0.65f, 1);
+        plavkiColorW.color = Color.HSVToRGB(NumColor, 0.65f, 1);
+    }
+
+    public void bttnImageKostyl()
+    {
+        if (PlayerPrefs.GetInt("pol") == 1)
+        {
+            bttnPl1.sprite = plavkiW;
+            bttnPl2.sprite = plavkiW;
+            bttnPl3.sprite = plavkiW;
+            bttnPl4.sprite = plavkiW;
+            bttnPl5.sprite = plavkiW;
+            bttnPl6.sprite = plavkiW;
+            bttnPl7.sprite = plavkiW;
+            bttnPl8.sprite = plavkiW;
+            bttnPl9.sprite = plavkiW;
+            bttnPl10.sprite = plavkiW;
+        }
+        else
+        {
+            bttnPl1.sprite = plavkiM;
+            bttnPl2.sprite = plavkiM;
+            bttnPl3.sprite = plavkiM;
+            bttnPl4.sprite = plavkiM;
+            bttnPl5.sprite = plavkiM;
+            bttnPl6.sprite = plavkiM;
+            bttnPl7.sprite = plavkiM;
+            bttnPl8.sprite = plavkiM;
+            bttnPl9.sprite = plavkiM;
+            bttnPl10.sprite = plavkiM;
+        }
+    }
+}

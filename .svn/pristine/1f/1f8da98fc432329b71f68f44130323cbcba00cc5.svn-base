@@ -1,0 +1,382 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using UnityEngine.Advertisements;
+
+public class player_script : MonoBehaviour {
+
+    public GameObject plavkiM;
+    public GameObject plavkiW;
+    public AudioSource AUsource;
+    public AudioClip AUstart;
+    public GameObject panelRestart;
+    public GameObject tgglSay;
+    public Toggle dontSay;
+    public GameObject paneltxtStart;
+    public Text txtStart;
+    public Text txtStudy;
+    int studyPos;
+    public GameObject panel_Study;
+    bool svist;
+    float plavkiHSV;
+    public Image plavki_Woomen;
+    public Image plavki;
+    public Image shapochka;
+    public Rigidbody2D power;
+    GameObject panelSwimmingPool;
+    public float speedCount;
+    public static int xPosition;
+    public static float powerCount;
+    public static bool startOn;
+    public static int position;
+    public static float raceTime;
+    public Text text1;
+    public Text text2;
+    public Text text3;
+    public Text text4;
+    int winnerGold;
+    Text myName;
+    float myTime;
+    public static int raceDist;
+    public int stileToday;
+    bool okSir;
+    public GameObject panelReady;
+    public Text checkStillText;
+    string stillString;
+    bool omfg;
+    public Text positionTXT;
+    public GameObject panelExit;
+    int myPosition;
+    public Text winnerText;
+    public GameObject bttnKrowl1;
+    public GameObject bttnKrowl2;
+    bool krowlBool;
+    Animator animator;
+    TrailRenderer trlRender;
+    float fstPos;
+    float scndPos;
+    bool posBool;
+    public static string anim_stile;
+    int sceneNumber;
+
+    void Awake()
+    {
+        tgglSay.SetActive(false);
+        studyPos = 0;
+        if(PlayerPrefs.GetInt("study") == 1)
+        {
+            panel_Study.SetActive(true);
+        }
+        else panel_Study.SetActive(false);
+        svist = false;
+        krowlBool = true;
+        //bttnKrowl1.SetActive(false);
+        //bttnKrowl2.SetActive(false);
+        myPosition = 0;
+        stillString = "";
+        checkStillText.text = "";
+        omfg = true;
+        panelReady.SetActive(true);
+        if (PlayerPrefs.GetInt("okdist1") == 1)
+        {
+            stileToday = PlayerPrefs.GetInt("swimStill1");
+            raceDist = PlayerPrefs.GetInt("swimDist1");
+            PlayerPrefs.SetInt("okdist1", 0);
+            sceneNumber = 1;
+        }
+        else if (PlayerPrefs.GetInt("okdist2") == 1)
+        {
+            stileToday = PlayerPrefs.GetInt("swimStill2");
+            raceDist = PlayerPrefs.GetInt("swimDist2");
+            PlayerPrefs.SetInt("okdist2", 0);
+            sceneNumber = 2;
+        }
+        else if (PlayerPrefs.GetInt("okdist3") == 1)
+        {
+            stileToday = PlayerPrefs.GetInt("swimStill3");
+            raceDist = PlayerPrefs.GetInt("swimDist3");
+            PlayerPrefs.SetInt("okdist3", 0);
+            sceneNumber = 3;
+        }
+        else if (PlayerPrefs.GetInt("okdist4") == 1)
+        {
+            stileToday = PlayerPrefs.GetInt("swimStill4");
+            raceDist = PlayerPrefs.GetInt("swimDist4");
+            PlayerPrefs.SetInt("okdist4", 0);
+            sceneNumber = 4;
+        }
+
+        else SceneManager.LoadScene(0);
+
+        switch (raceDist)
+        {
+            case 1:
+                raceDist = 2;
+                stillString = "50м";
+                break;
+            case 2:
+                raceDist = 4;
+                stillString = "100м";
+                break;
+            case 3:
+                raceDist = 8;
+                stillString = "200м";
+                break;
+            case 4:
+                raceDist = 16;
+                stillString = "400м";
+                break;
+        }
+        animator = GetComponent<Animator>();
+        switch (stileToday)
+        {
+            case 1:
+                stillString = stillString + " Брасс";
+                animator.SetBool("Brass", true);
+                speedCount = PlayerPrefs.GetFloat("speedBrass");
+                anim_stile = "Brass";
+                break;
+            case 2:
+                stillString = stillString + " Кроль";
+                animator.SetBool("Krowl", true);
+                speedCount = PlayerPrefs.GetFloat("speedKrowl");
+                anim_stile = "Krowl";
+                break;
+            case 3:
+                stillString = stillString + " Спина";
+                animator.SetBool("Spin", true);
+                speedCount = PlayerPrefs.GetFloat("speedSpina");
+                anim_stile = "Spin";
+                break;
+            case 4:
+                stillString = stillString + " Баттерфляй";
+                animator.SetBool("Batt", true);
+                speedCount = PlayerPrefs.GetFloat("speedBat");
+                anim_stile = "Batt";
+                break;
+        }
+        startOn = false;
+        position = 0;
+        xPosition = Random.Range(1, 5);
+        switch (xPosition)
+        {
+            case 1:
+                xPosition = -174;
+                myName = text1;
+                break;
+            case 2:
+                xPosition = -57;
+                myName = text2;
+                break;
+            case 3:
+                xPosition = 57;
+                myName = text3;
+                break;
+            case 4:
+                xPosition = 174;
+                myName = text4;
+                break;
+        }
+        checkStillText.text = stillString;
+    }
+
+    void Start() {
+        okSir = false;
+        myName.text = PlayerPrefs.GetString("secName") + " " + PlayerPrefs.GetString("Name");
+        raceTime = 0;
+        powerCount = 12;
+        transform.localPosition = new Vector3(xPosition, -549, -10); // -583
+        trlRender = GetComponent<TrailRenderer>();
+        trlRender.enabled = false;
+        posBool = true;
+        shapochka.color = Color.HSVToRGB(PlayerPrefs.GetFloat("colorShapochka"), 0.65f, 1);
+        plavki_Woomen.color = Color.HSVToRGB(PlayerPrefs.GetFloat("colorPlavki"), 0.65f, 1);
+        plavki.color = Color.HSVToRGB(PlayerPrefs.GetFloat("colorPlavki"), 0.65f, 1);
+        if (PlayerPrefs.GetInt("pol") == 1)
+        {
+            plavkiW.SetActive(true);
+            plavkiM.SetActive(false);
+        }
+        else
+        {
+            plavkiM.SetActive(true);
+            plavkiW.SetActive(false);
+        }
+    }
+
+    void Update() {
+        /**
+        if (Input.GetMouseButtonDown(0) && startOn == true)
+        {
+            power.AddForce(new Vector2(0, speedCount * Time.deltaTime), ForceMode2D.Impulse);
+        }
+    **/
+        raceTime += Time.deltaTime;
+        animator.speed = Mathf.Abs(power.velocity.y);
+        if (panelReady.activeSelf == false && panel_Study.activeSelf == false && omfg)
+        {
+            StartCoroutine(start());
+            omfg = false;
+        }
+        if (position >= 4)
+        {
+            panelExit.SetActive(true);
+        }
+        if(svist == true)
+        {
+            if(!Input.GetMouseButton(0))
+            {
+                txtStart.text = "Фальстарт";
+                panelRestart.SetActive(true);
+            }
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.tag == "TopCollider")
+        {
+            transform.Rotate(180, 0, 0);
+            raceDist--;
+            speedCount = -speedCount;
+            power.AddForce(new Vector2(0, -powerCount), ForceMode2D.Impulse);
+            okSir = true;
+        }
+
+        if (col.tag == "DownCollider" && okSir)
+        {
+            raceDist--;
+            if (raceDist <= 0)
+            {
+                trlRender.enabled = false;
+                position++;
+                myPosition = position;
+                myTime = raceTime;
+                myName.text = myPosition + " Место - " + string.Format("{0:0.00}", myTime);
+                positionTXT.text = myPosition.ToString();
+                winnerCoins();
+                winnerText.text = "Заработано " + winnerGold + " руб";
+                PlayerPrefs.SetInt("money", PlayerPrefs.GetInt("money") + winnerGold);
+            }
+            else
+            {
+                transform.Rotate(180, 0, 0);
+                speedCount = -speedCount;
+                power.AddForce(new Vector2(0, powerCount), ForceMode2D.Impulse);
+            }
+        }
+    }
+    public IEnumerator start()
+    {
+        paneltxtStart.SetActive(true);
+        yield return new WaitForSeconds(2);
+        text1.text = "";
+        text2.text = "";
+        text3.text = "";
+        text4.text = "";
+        txtStart.text = "Длинный свисток";
+        while (Input.GetMouseButton(0) == false) yield return new WaitForSeconds(0.1f);
+        txtStart.text = "На старт";
+        svist = true;
+        yield return new WaitForSeconds(1);
+        AUsource.PlayOneShot(AUstart, 1);
+        yield return new WaitForSeconds(1.7f);
+        txtStart.text = "Свисток!";
+        svist = false;
+        startOn = true;
+        raceTime = 0;
+        if(PlayerPrefs.GetInt("vibrate") == 1)
+        {
+            Handheld.Vibrate();
+        }
+        while (Input.GetMouseButton(0) == true) yield return new WaitForSeconds(0.1f);
+        paneltxtStart.SetActive(false);
+        trlRender.enabled = true;
+        power.AddForce(new Vector2(0, powerCount), ForceMode2D.Impulse);
+    }
+
+    public void winnerCoins()
+    {
+        switch (myPosition)
+        {
+            case 1:
+                winnerGold = 1000;
+                break;
+            case 2:
+                winnerGold = 750;
+                break;
+            case 3:
+                winnerGold = 500;
+                break;
+            case 4:
+                winnerGold = 0;
+                break;
+        }
+    }
+
+    public void clickNext()
+    {
+        SceneManager.LoadScene(1);
+    }
+
+    public void bttnKrowlLeft()
+    {
+        if(krowlBool == true && startOn == true && svist == false)
+        {
+            power.AddForce(new Vector2(0, speedCount * Time.deltaTime), ForceMode2D.Impulse);
+            krowlBool = false;
+        }
+    }
+
+    public void bttnKrowlRight()
+    {
+        if (krowlBool == false && startOn == true && svist == false)
+        {
+            power.AddForce(new Vector2(0, speedCount * Time.deltaTime), ForceMode2D.Impulse);
+            krowlBool = true;
+        }
+    }
+
+    public void bttnNextStudy()
+    {
+        if (studyPos == 2)
+        {
+            panel_Study.SetActive(false);
+            if (dontSay.isOn == true) PlayerPrefs.SetInt("study", 0);
+        }
+        if (studyPos == 1)
+        {
+            txtStudy.text = "Затем поочередно кликайте по правой и левой стороне экрана";
+            tgglSay.SetActive(true);
+            studyPos++;
+        }
+        if (studyPos == 0)
+        {
+            txtStudy.text = "Нажмите и удерживайте до свистка";
+            studyPos++;
+        }
+    }
+
+    public void bttnADS()
+    {
+        if (!PlayerPrefs.HasKey("NoAds"))
+        {
+            if (Advertisement.IsReady("rewardedVideo"))
+            {
+                Advertisement.Show("rewardedVideo");
+            }
+        }
+        if (sceneNumber == 1) PlayerPrefs.SetInt("okdist1", 1);
+        if (sceneNumber == 2) PlayerPrefs.SetInt("okdist2", 1);
+        if (sceneNumber == 3) PlayerPrefs.SetInt("okdist3", 1);
+        if (sceneNumber == 4) PlayerPrefs.SetInt("okdist4", 1);
+        SceneManager.LoadScene(1);
+    }
+    public void bttnNoADS()
+    {
+        SceneManager.LoadScene(1);
+    }
+}
+

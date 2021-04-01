@@ -1,0 +1,162 @@
+﻿using UnityEngine;
+using System.Collections;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
+public class Bttn_Next_Yes : MonoBehaviour {
+
+    public GameObject panel_Prefs_Set;
+    public GameObject panel_Main;
+    public Text moneyTxt;
+    public GameObject cumAnim;
+    public Text name_input;
+    public Text secondname_input;
+    public GameObject text_ret;
+    public Dropdown still_drop;
+    public Text name_text;
+    public Text still_text;
+    public Text secondname_text;
+    public GameObject panel1;
+    public GameObject panel2;
+    public GameObject panel3;
+    public GameObject panel4;
+    public GameObject panel5;
+    public Image settings_bttn;
+    public Image home_bttn;
+    public Text day_text;
+    public Text batTrain;
+    public Text krowlTrain;
+    public Text brassTrain;
+    public Text spinTrain;
+    public Text statKrowl;
+    public Text statBat;
+    public Text statBrass;
+    public Text statSpina;
+
+    void OnMouseDown()
+    {
+        if(name_input.text != "" && secondname_input.text != "")
+        {
+            PlayerPrefs.SetInt("SwimmingPool", 0);
+            PlayerPrefs.SetInt("study", 1);
+            PlayerPrefs.SetInt("kvest", 0);
+            PlayerPrefs.SetInt("vibrate", 1);
+            PlayerPrefs.SetInt("trainer", 1);
+            PlayerPrefs.SetFloat("upTrainKrowl", 0.2f);
+            PlayerPrefs.SetFloat("upTrainBat", 0.2f);
+            PlayerPrefs.SetFloat("upTrainSpina", 0.2f);
+            PlayerPrefs.SetFloat("upTrainBrass", 0.2f);
+            PlayerPrefs.SetInt("money", 50000);
+            PlayerPrefs.SetInt("day", 1);
+            PlayerPrefs.SetString("Name", name_input.text);
+            PlayerPrefs.SetString("secName", secondname_input.text);
+            PlayerPrefs.SetString("firstPlay", "yes");
+            PlayerPrefs.SetFloat("speedKrowl", 7f);
+            PlayerPrefs.SetFloat("speedBat", 7f);
+            PlayerPrefs.SetFloat("speedBrass", 7f);
+            PlayerPrefs.SetFloat("speedSpina", 7f);
+            PlayerPrefs.SetInt("rank", 0);
+            brassTrain.text = PlayerPrefs.GetFloat("upTrainBrass").ToString();
+            krowlTrain.text = PlayerPrefs.GetFloat("upTrainKrowl").ToString();
+            spinTrain.text = PlayerPrefs.GetFloat("upTrainSpina").ToString();
+            batTrain.text = PlayerPrefs.GetFloat("upTrainBat").ToString();
+            statBat.text = "Баттерфляй - " + string.Format("{0:0.00}", PlayerPrefs.GetFloat("speedBat"));
+            statKrowl.text = "Кроль - " + string.Format("{0:0.00}", PlayerPrefs.GetFloat("speedKrowl"));
+            statBrass.text = "Брасс - " + string.Format("{0:0.00}", PlayerPrefs.GetFloat("speedBrass"));
+            statSpina.text = "Спина - " + string.Format("{0:0.00}", PlayerPrefs.GetFloat("speedSpina"));
+            moneyTxt.text = PlayerPrefs.GetInt("money").ToString();
+            PlayerPrefs.SetInt("Rate", 5);
+            switch (still_drop.value)
+            {
+                case 0:
+                    PlayerPrefs.SetString("still", "Krowl");
+                    break;
+                case 1:
+                    PlayerPrefs.SetString("still", "Bat");
+                    break;
+                case 2:
+                    PlayerPrefs.SetString("still", "Spin");
+                    break;
+                case 3:
+                    PlayerPrefs.SetString("still", "Brass");
+                    break;
+            }
+            if (!cumAnim.GetComponent<Animator>().enabled) cumAnim.GetComponent<Animator>().enabled = true;
+            else cumAnim.GetComponent<Animator>().SetTrigger("Ok");
+            panel1.SetActive(false);
+            panel2.SetActive(false);
+            panel3.SetActive(true);
+            panel4.SetActive(false);
+            panel5.SetActive(false);
+            switch (PlayerPrefs.GetString("still"))
+            {
+                case "Krowl":
+                    still_text.text = "Кролист";
+                    break;
+                case "Bat":
+                    still_text.text = "Баттист";
+                    break;
+                case "Spin":
+                    still_text.text = "Спинист";
+                    break;
+                case "Brass":
+                    still_text.text = "Брассист";
+                    break;
+            }
+            name_text.text = PlayerPrefs.GetString("Name");
+            secondname_text.text = PlayerPrefs.GetString("secName");
+            {
+                switch (PlayerPrefs.GetInt("day"))
+                {
+                    case 1:
+                        day_text.text = "Пн";
+                        break;
+                    case 2:
+                        day_text.text = "Вт";
+                        break;
+                    case 3:
+                        day_text.text = "Ср";
+                        break;
+                    case 4:
+                        day_text.text = "Чт";
+                        break;
+                    case 5:
+                        day_text.text = "Пт";
+                        break;
+                    case 6:
+                        day_text.text = "Сб";
+                        break;
+                    case 7:
+                        day_text.text = "Вс";
+                        break;
+                }
+
+            }
+            home_bttn.color = new Vector4(0.176f, 0.243f, 0.313f, 1);
+            settings_bttn.color = new Vector4(0.968f, 0.984f, 1, 1);
+            StartCoroutine(show_panel_main());
+        }
+        else
+        {
+            StartCoroutine(text_show_ok());
+        }
+    }
+
+    
+
+    IEnumerator show_panel_main()
+    {
+        yield return new WaitForSeconds(0.8f);
+        panel_Prefs_Set.SetActive(false);
+        panel_Main.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
+        SceneManager.LoadScene(0);
+    }
+
+    IEnumerator text_show_ok()
+    {
+        text_ret.SetActive(true);
+        yield return new WaitForSeconds(2);
+        text_ret.SetActive(false);
+    }
+}

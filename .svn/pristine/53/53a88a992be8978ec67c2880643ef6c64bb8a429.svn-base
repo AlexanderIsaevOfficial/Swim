@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Swim!.CSharp.Plugins", "Swim!.CSharp.Plugins.csproj", "{71151DA1-FE7E-AF07-FD4C-86B89970CCD7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Swim!.CSharp", "Swim!.CSharp.csproj", "{C0217E19-F248-8FE0-90F1-EA423B446DFB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Swim!.CSharp.Editor.Plugins", "Swim!.CSharp.Editor.Plugins.csproj", "{8FA402EE-77D8-4CB3-C83F-BBF9C98CBAD2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Swim!.CSharp.Editor", "Swim!.CSharp.Editor.csproj", "{4BCAB554-7093-2860-2A27-FBCDAC447127}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{71151DA1-FE7E-AF07-FD4C-86B89970CCD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71151DA1-FE7E-AF07-FD4C-86B89970CCD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71151DA1-FE7E-AF07-FD4C-86B89970CCD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71151DA1-FE7E-AF07-FD4C-86B89970CCD7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0217E19-F248-8FE0-90F1-EA423B446DFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0217E19-F248-8FE0-90F1-EA423B446DFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0217E19-F248-8FE0-90F1-EA423B446DFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0217E19-F248-8FE0-90F1-EA423B446DFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FA402EE-77D8-4CB3-C83F-BBF9C98CBAD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FA402EE-77D8-4CB3-C83F-BBF9C98CBAD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FA402EE-77D8-4CB3-C83F-BBF9C98CBAD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FA402EE-77D8-4CB3-C83F-BBF9C98CBAD2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BCAB554-7093-2860-2A27-FBCDAC447127}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BCAB554-7093-2860-2A27-FBCDAC447127}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BCAB554-7093-2860-2A27-FBCDAC447127}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BCAB554-7093-2860-2A27-FBCDAC447127}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

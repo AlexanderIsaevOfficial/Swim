@@ -1,0 +1,61 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class PlavkiBttn : MonoBehaviour {
+
+    public int numberPlavki;
+    public Sprite plavkiW;
+    public Sprite plavkiM;
+    public Sprite Shapochka;
+    Image clrPlavki;
+    public int plSH;
+
+    void Start()
+    {
+        clrPlavki = GetComponent<Image>();
+        if (PlayerPrefs.GetInt("pol") == 1)
+        {
+            clrPlavki.sprite = plavkiW;
+        }
+        else clrPlavki.sprite = plavkiM;
+        if(plSH == 1)
+        {
+            clrPlavki.sprite = Shapochka;
+        }
+        switch (numberPlavki)
+        {
+            case 1:
+                clrPlavki.color = Color.HSVToRGB(0.1f, 0.65f, 1);
+                break;
+            case 2:
+                clrPlavki.color = Color.HSVToRGB(0.2f, 0.65f, 1);
+                break;
+            case 3:
+                clrPlavki.color = Color.HSVToRGB(0.3f, 0.65f, 1);
+                break;
+            case 4:
+                clrPlavki.color = Color.HSVToRGB(0.4f, 0.65f, 1);
+                break;
+            case 5:
+                clrPlavki.color = Color.HSVToRGB(0.5f, 0.65f, 1);
+                break;
+            case 6:
+                clrPlavki.color = Color.HSVToRGB(0.6f, 0.65f, 1);
+                break;
+            case 7:
+                clrPlavki.color = Color.HSVToRGB(0.7f, 0.65f, 1);
+                break;
+            case 8:
+                clrPlavki.color = Color.HSVToRGB(0.8f, 0.65f, 1);
+                break;
+            case 9:
+                clrPlavki.color = Color.HSVToRGB(0.9f, 0.65f, 1);
+                break;
+            case 10:
+                clrPlavki.color = Color.HSVToRGB(1, 0.65f, 1);
+                break;
+        }
+    }
+}
